@@ -14,20 +14,20 @@ public class CamundaTask
         _httpClient = new HttpClient();
     }
 
-    public void CompleteTask(CompleteTaskDto dto)
+    public async Task CompleteTask(CompleteTaskDto dto)
     {
         var url = $"http://localhost:8080/engine-rest/task/{dto.Id}/complete";
         var dtoJson = JsonSerializer.Serialize(dto, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
         var content = new StringContent(dtoJson, Encoding.UTF8, "application/json");
-        var response = _httpClient.PostAsync(url, content);
-        var result = response.Result.Content.ReadAsStringAsync();
-        if(response.IsCompletedSuccessfully && response.Result.StatusCode == HttpStatusCode.NoContent)
+        var response = await _httpClient.PostAsync(url, content);
+        var result = response.Content.ReadAsStringAsync();
+        if (response.StatusCode == HttpStatusCode.OK)
         {
             Console.WriteLine("Task completed");
         }
         else
         {
-            Console.WriteLine($"Error: {result.Result}");
+            Console.WriteLine("Error: " + result);
         }
     }
 }
