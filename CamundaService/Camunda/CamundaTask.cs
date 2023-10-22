@@ -21,7 +21,7 @@ public class CamundaTask
         var content = new StringContent(dtoJson, Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync(url, content);
         var result = response.Content.ReadAsStringAsync();
-        if (response.StatusCode == HttpStatusCode.OK)
+        if (response.IsSuccessStatusCode)
         {
             Console.WriteLine("Task completed");
         }
