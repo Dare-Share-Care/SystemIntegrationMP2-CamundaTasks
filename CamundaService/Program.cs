@@ -9,7 +9,7 @@ var factory = new ConnectionFactory { HostName = "localhost" };
 var connection = factory.CreateConnection();
 using var channel = connection.CreateChannel();
 
-channel.QueueDeclare("camunda");
+channel.QueueDeclare("camundaTask");
 Console.WriteLine(" [*] Waiting for messages.");
 
 var consumer = new EventingBasicConsumer(channel);
@@ -24,6 +24,6 @@ consumer.Received += (model, eventArgs) =>
     camundaTask.CompleteTask(dto);
 };
 
-channel.BasicConsume(queue: "camunda", autoAck: true, consumer: consumer);
+channel.BasicConsume(queue: "camundaTask", autoAck: true, consumer: consumer);
 Console.WriteLine(" Press [enter] to exit.");
 Console.ReadKey();
